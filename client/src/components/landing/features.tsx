@@ -6,55 +6,66 @@ import {
   Shield, 
   Megaphone 
 } from 'lucide-react';
-
-const features = [
-  {
-    icon: MessageSquare,
-    title: "Enterprise WhatsApp API",
-    description: "Official WhatsApp Business API integration with enterprise-grade reliability, compliance monitoring, and 99.9% uptime SLA for mission-critical communications.",
-    color: "text-primary"
-  },
-  {
-    icon: Bot,
-    title: "AI-Powered Chatbots",
-    description: "Intelligent conversational AI that handles complex customer inquiries, lead qualification, and support automation 24/7 with natural language processing.",
-    color: "text-purple-500"
-  },
-  {
-    icon: BarChart3,
-    title: "Advanced Analytics & BI",
-    description: "Comprehensive business intelligence dashboard with real-time metrics, conversion tracking, ROI analysis, and customizable reporting for data-driven decisions.",
-    color: "text-green-500"
-  },
-  {
-    icon: Send,
-    title: "Bulk Campaign Management",
-    description: "Execute large-scale messaging campaigns with advanced segmentation, A/B testing, delivery optimization, and compliance monitoring for maximum ROI.",
-    color: "text-blue-500"
-  },
-  {
-    icon: Shield,
-    title: "Compliance & Security",
-    description: "ISO 27001 certified platform with GDPR compliance, end-to-end encryption, message auditing, and regulatory adherence for UAE and India markets.",
-    color: "text-amber-500"
-  },
-  {
-    icon: Megaphone,
-    title: "Multi-Channel Integration",
-    description: "Seamlessly integrate with CRM systems, helpdesks, marketing automation platforms, and ERP systems for unified customer communication workflows.",
-    color: "text-orange-500"
-  }
-];
+import { useLanguage } from '@/contexts/language-context';
 
 export function Features() {
+  const { t } = useLanguage();
+  
+  const features = [
+    {
+      icon: MessageSquare,
+      titleKey: "enterpriseApi",
+      descriptionKey: "enterpriseApiDesc",
+      color: "text-primary"
+    },
+    {
+      icon: Bot,
+      titleKey: "aiChatbotsFeature",
+      descriptionKey: "aiChatbotsDesc",
+      color: "text-purple-500"
+    },
+    {
+      icon: BarChart3,
+      titleKey: "analyticsBI",
+      descriptionKey: "analyticsBIDesc",
+      color: "text-green-500"
+    },
+    {
+      icon: Send,
+      titleKey: "bulkCampaigns",
+      descriptionKey: "bulkCampaignsDesc",
+      color: "text-blue-500"
+    },
+    {
+      icon: Shield,
+      titleKey: "complianceSecurity",
+      descriptionKey: "complianceSecurityDesc",
+      color: "text-amber-500"
+    },
+    {
+      icon: Megaphone,
+      titleKey: "multiChannelIntegration",
+      descriptionKey: "multiChannelDesc",
+      color: "text-orange-500"
+    }
+  ];
+  
   return (
-    <section id="features" className="py-20 bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-20 bg-card relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-10 w-72 h-72 bg-violet-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/3 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">Enterprise-Grade WhatsApp Business Solutions</h2>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
+            {t('featuresTitle')}
+          </h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            Comprehensive WhatsApp Business API platform designed for enterprises across UAE and India. 
-            Features advanced automation, AI-powered chatbots, and enterprise integrations with guaranteed SLAs.
+            {t('featuresDescription')}
           </p>
         </div>
         
@@ -64,14 +75,21 @@ export function Features() {
             return (
               <div 
                 key={index}
-                className="bg-background p-8 rounded-2xl border border-border hover-scale"
+                className="group bg-background/80 backdrop-blur-sm p-8 rounded-2xl border border-border hover:border-violet-200 dark:hover:border-violet-800 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-2"
                 data-testid={`card-feature-${index}`}
+                style={{
+                  animationDelay: `${index * 100}ms`
+                }}
               >
-                <div className={`w-12 h-12 bg-${feature.color.split('-')[1]}-500/10 rounded-lg flex items-center justify-center mb-6`}>
-                  <IconComponent className={`text-2xl ${feature.color}`} size={24} />
+                <div className={`w-12 h-12 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <IconComponent className={`text-2xl ${feature.color} group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300`} size={24} />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-4 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
+                  {t(feature.titleKey)}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {t(feature.descriptionKey)}
+                </p>
               </div>
             );
           })}

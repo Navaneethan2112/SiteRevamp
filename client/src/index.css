@@ -10,7 +10,7 @@
   --card-foreground: hsl(210, 40%, 98%);
   --popover: hsl(222, 84%, 5%);
   --popover-foreground: hsl(210, 40%, 98%);
-  --primary: hsl(217, 91%, 60%);
+  --primary: hsl(262, 83%, 58%);
   --primary-foreground: hsl(222, 84%, 5%);
   --secondary: hsl(217, 19%, 27%);
   --secondary-foreground: hsl(210, 40%, 98%);
@@ -22,20 +22,20 @@
   --destructive-foreground: hsl(210, 40%, 98%);
   --border: hsl(217, 19%, 27%);
   --input: hsl(217, 19%, 27%);
-  --ring: hsl(217, 91%, 60%);
-  --chart-1: hsl(217, 91%, 60%);
+  --ring: hsl(262, 83%, 58%);
+  --chart-1: hsl(262, 83%, 58%);
   --chart-2: hsl(159, 100%, 36%);
   --chart-3: hsl(42, 93%, 56%);
   --chart-4: hsl(147, 79%, 42%);
   --chart-5: hsl(341, 75%, 51%);
   --sidebar: hsl(222, 84%, 5%);
   --sidebar-foreground: hsl(210, 40%, 98%);
-  --sidebar-primary: hsl(217, 91%, 60%);
+  --sidebar-primary: hsl(262, 83%, 58%);
   --sidebar-primary-foreground: hsl(222, 84%, 5%);
   --sidebar-accent: hsl(262, 83%, 58%);
   --sidebar-accent-foreground: hsl(210, 40%, 98%);
   --sidebar-border: hsl(217, 19%, 27%);
-  --sidebar-ring: hsl(217, 91%, 60%);
+  --sidebar-ring: hsl(262, 83%, 58%);
   --font-sans: Inter, system-ui, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
@@ -49,7 +49,7 @@
   --card-foreground: hsl(222, 84%, 4%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(222, 84%, 4%);
-  --primary: hsl(217, 91%, 60%);
+  --primary: hsl(262, 83%, 58%);
   --primary-foreground: hsl(210, 40%, 98%);
   --secondary: hsl(210, 40%, 96%);
   --secondary-foreground: hsl(222, 84%, 4%);
@@ -61,15 +61,15 @@
   --destructive-foreground: hsl(210, 40%, 98%);
   --border: hsl(214, 32%, 91%);
   --input: hsl(214, 32%, 91%);
-  --ring: hsl(217, 91%, 60%);
+  --ring: hsl(262, 83%, 58%);
   --sidebar: hsl(0, 0%, 100%);
   --sidebar-foreground: hsl(222, 84%, 4%);
-  --sidebar-primary: hsl(217, 91%, 60%);
+  --sidebar-primary: hsl(262, 83%, 58%);
   --sidebar-primary-foreground: hsl(210, 40%, 98%);
   --sidebar-accent: hsl(210, 40%, 96%);
   --sidebar-accent-foreground: hsl(222, 84%, 4%);
   --sidebar-border: hsl(214, 32%, 91%);
-  --sidebar-ring: hsl(217, 91%, 60%);
+  --sidebar-ring: hsl(262, 83%, 58%);
 }
 
 @layer base {
@@ -83,7 +83,20 @@
 }
 
 .gradient-bg {
-  background: linear-gradient(135deg, hsl(217, 91%, 60%) 0%, hsl(262, 83%, 58%) 100%);
+  background: linear-gradient(135deg, hsl(262, 83%, 58%) 0%, hsl(252, 83%, 53%) 50%, hsl(242, 75%, 45%) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.03"><circle cx="30" cy="30" r="2"/></g></svg>');
+  animation: float 20s ease-in-out infinite;
 }
 
 .glass-effect {
@@ -114,4 +127,34 @@
 .hover-scale:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating animation for background patterns */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-20px) rotate(0deg); }
+  75% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+/* Pulse animation for background elements */
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+/* Staggered animation for feature cards */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out forwards;
 }

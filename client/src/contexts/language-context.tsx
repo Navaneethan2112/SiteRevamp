@@ -27,8 +27,8 @@ const translations = {
     heroTitle1: 'Enterprise',
     heroTitle2: 'WhatsApp Business Platform',
     heroTitle3: 'for Modern Businesses',
-    heroDescription: 'Transform your customer communication with our professional WhatsApp Business API platform. Features intelligent chatbots, bulk messaging campaigns, and comprehensive analytics for businesses across UAE and India.',
-    apiPartner: '✅ Official WhatsApp Business API Partner',
+    heroDescription: 'Transform your customer communication with our professional WhatsApp Business API platform. Features intelligent chatbots, bulk messaging campaigns, and comprehensive analytics for businesses worldwide.',
+    apiPartner: '🌍 Global WhatsApp Business Solutions',
     bulkMessaging: 'Bulk Messaging',
     aiChatbots: 'AI Chatbots', 
     analytics: 'Analytics',
@@ -42,11 +42,25 @@ const translations = {
     
     // Features Section
     featuresTitle: 'Enterprise-Grade WhatsApp Business Solutions',
-    featuresDescription: 'Comprehensive WhatsApp Business API platform designed for enterprises across UAE and India. Features advanced automation, AI-powered chatbots, and enterprise integrations with guaranteed SLAs.',
+    featuresDescription: 'Comprehensive WhatsApp Business API platform designed for enterprises worldwide. Features advanced automation, AI-powered chatbots, and enterprise integrations with guaranteed SLAs.',
+    
+    // Feature Items
+    enterpriseApi: 'Enterprise WhatsApp API',
+    enterpriseApiDesc: 'Official WhatsApp Business API integration with enterprise-grade reliability, compliance monitoring, and 99.9% uptime SLA for mission-critical communications.',
+    aiChatbotsFeature: 'AI-Powered Chatbots',
+    aiChatbotsDesc: 'Intelligent conversational AI that handles complex customer inquiries, lead qualification, and support automation 24/7 with natural language processing.',
+    analyticsBI: 'Advanced Analytics & BI',
+    analyticsBIDesc: 'Comprehensive business intelligence dashboard with real-time metrics, conversion tracking, ROI analysis, and customizable reporting for data-driven decisions.',
+    bulkCampaigns: 'Bulk Campaign Management',
+    bulkCampaignsDesc: 'Execute large-scale messaging campaigns with advanced segmentation, A/B testing, delivery optimization, and compliance monitoring for maximum ROI.',
+    complianceSecurity: 'Compliance & Security',
+    complianceSecurityDesc: 'ISO 27001 certified platform with GDPR compliance, end-to-end encryption, message auditing, and regulatory adherence for global markets.',
+    multiChannelIntegration: 'Multi-Channel Integration',
+    multiChannelDesc: 'Seamlessly integrate with CRM systems, helpdesks, marketing automation platforms, and ERP systems for unified customer communication workflows.',
     
     // Pricing Section
     pricingTitle: 'Enterprise WhatsApp Messaging Solutions',
-    pricingDescription: 'Professional WhatsApp Business API plans for businesses of all sizes. Includes chatbots, bulk messaging, and analytics.',
+    pricingDescription: 'Professional WhatsApp Business API plans for businesses of all sizes worldwide. Includes chatbots, bulk messaging, and analytics.',
     usdGlobal: '🇺🇸 USD (Global)',
     aedUae: '🇦🇪 AED (UAE)',
     inrIndia: '🇮🇳 INR (India)',
@@ -78,8 +92,8 @@ const translations = {
     heroTitle1: 'எண்டர்பிரைஸ்',
     heroTitle2: 'WhatsApp வணிக தளம்',
     heroTitle3: 'நவீன வணிகங்களுக்கு',
-    heroDescription: 'எங்கள் தொழில்முறை WhatsApp வணிக API தளத்துடன் உங்கள் வாடிக்கையாளர் தொடர்புகளை மாற்றவும். UAE மற்றும் இந்தியாவில் வணிகங்களுக்கு அறிவார்ந்த சாட்போட்கள், மொத்த செய்திகள் மற்றும் விரிவான பகுப்பாய்வு.',
-    apiPartner: '✅ அதிகாரப்பூர்வ WhatsApp வணிக API பங்குதாரர்',
+    heroDescription: 'எங்கள் தொழில்முறை WhatsApp வணிக API தளத்துடன் உங்கள் வாடிக்கையாளர் தொடர்புகளை மாற்றவும். உலகளவில் வணிகங்களுக்கு அறிவார்ந்த சாட்போட்கள், மொத்த செய்திகள் மற்றும் விரிவான பகுப்பாய்வு.',
+    apiPartner: '🌍 உலகளாவிய WhatsApp வணிக தீர்வுகள்',
     bulkMessaging: 'மொத்த செய்தி',
     aiChatbots: 'AI சாட்போட்கள்',
     analytics: 'பகுப்பாய்வு',
@@ -93,7 +107,7 @@ const translations = {
     
     // Features Section
     featuresTitle: 'நிறுவன-தர WhatsApp வணிக தீர்வுகள்',
-    featuresDescription: 'UAE மற்றும் இந்தியாவில் நிறுவனங்களுக்கு வடிவமைக்கப்பட்ட விரிவான WhatsApp வணிக API தளம். உத்தரவாத SLAகளுடன் மேம்பட்ட ஆட்டோமேஷன், AI-இயங்கும் சாட்போட்கள் மற்றும் நிறுவன ஒருங்கிணைப்புகள்.',
+    featuresDescription: 'உலகளவில் நிறுவனங்களுக்கு வடிவமைக்கப்பட்ட விரிவான WhatsApp வணிக API தளம். உத்தரவாத SLAகளுடன் மேம்பட்ட ஆட்டோமேஷன், AI-இயங்கும் சாட்போட்கள் மற்றும் நிறுவன ஒருங்கிணைப்புகள்.',
     
     // Pricing Section
     pricingTitle: 'நிறுவன WhatsApp செய்தி தீர்வுகள்',
@@ -129,8 +143,8 @@ const translations = {
     heroTitle1: 'منصة',
     heroTitle2: 'WhatsApp التجارية المؤسسية',
     heroTitle3: 'للشركات الحديثة',
-    heroDescription: 'حول اتصالات عملائك مع منصة WhatsApp Business API المهنية لدينا. تتميز بروبوتات المحادثة الذكية وحملات الرسائل المجمعة والتحليلات الشاملة للشركات في دولة الإمارات والهند.',
-    apiPartner: '✅ شريك رسمي لـ WhatsApp Business API',
+    heroDescription: 'حول اتصالات عملائك مع منصة WhatsApp Business API المهنية لدينا. تتميز بروبوتات المحادثة الذكية وحملات الرسائل المجمعة والتحليلات الشاملة للشركات في جميع أنحاء العالم.',
+    apiPartner: '🌍 حلول WhatsApp التجارية العالمية',
     bulkMessaging: 'الرسائل المجمعة',
     aiChatbots: 'روبوتات الذكاء الاصطناعي',
     analytics: 'التحليلات',
@@ -144,7 +158,7 @@ const translations = {
     
     // Features Section
     featuresTitle: 'حلول WhatsApp التجارية على مستوى المؤسسات',
-    featuresDescription: 'منصة WhatsApp Business API شاملة مصممة للمؤسسات في دولة الإمارات والهند. تتميز بالأتمتة المتقدمة وروبوتات المحادثة المدعومة بالذكاء الاصطناعي وتكاملات المؤسسات مع ضمانات SLA.',
+    featuresDescription: 'منصة WhatsApp Business API شاملة مصممة للمؤسسات في جميع أنحاء العالم. تتميز بالأتمتة المتقدمة وروبوتات المحادثة المدعومة بالذكاء الاصطناعي وتكاملات المؤسسات مع ضمانات SLA.',
     
     // Pricing Section
     pricingTitle: 'حلول رسائل WhatsApp المؤسسية',
