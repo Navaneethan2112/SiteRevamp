@@ -14,7 +14,7 @@ export function Navigation() {
   const { isAuthenticated, user } = useAuth0();
   const { language, setLanguage, t } = useLanguage();
   const { currency, setCurrency } = useCurrency();
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleTheme = () => {
