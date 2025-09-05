@@ -1,8 +1,8 @@
 export const auth0Config = {
-  domain: "dev-stho3t6oox67x08b.us.auth0.com",
-  clientId: "2TK5kVQhVkeuYdWZf0Ldor2OMC8mDCH0",
+  domain: import.meta.env.VITE_AUTH0_DOMAIN,
+  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
   authorizationParams: {
-    redirect_uri: "https://aaraconnect.com/callback",
-    audience: "",
+    redirect_uri: window.location.origin,
+    audience: import.meta.env.VITE_AUTH0_AUDIENCE,
   },
 };

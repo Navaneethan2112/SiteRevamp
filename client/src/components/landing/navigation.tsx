@@ -5,7 +5,7 @@ import { LoginButton } from '@/components/auth/login-button';
 import { LogoutButton } from '@/components/auth/logout-button';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Moon, Sun, Menu, X, Globe, DollarSign } from 'lucide-react';
+import { Menu, X, Globe, DollarSign } from 'lucide-react';
 import logoImage from '@assets/logo(1)_1757082606279.png';
 import { useLanguage } from '@/contexts/language-context';
 import { useCurrency } from '@/contexts/currency-context';
@@ -14,13 +14,7 @@ export function Navigation() {
   const { isAuthenticated, user } = useAuth0();
   const { language, setLanguage, t } = useLanguage();
   const { currency, setCurrency } = useCurrency();
-  const [isDark, setIsDark] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('light');
-  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -96,16 +90,6 @@ export function Navigation() {
                 <SelectItem value="INR">INR</SelectItem>
               </SelectContent>
             </Select>
-            
-            <Button
-              onClick={toggleTheme}
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-lg hover:bg-muted/50"
-              data-testid="button-theme-toggle"
-            >
-              {isDark ? <Sun className="h-4 w-4 text-foreground" /> : <Moon className="h-4 w-4 text-foreground" />}
-            </Button>
             
             {isAuthenticated ? (
               <div className="hidden sm:flex items-center space-x-3">
