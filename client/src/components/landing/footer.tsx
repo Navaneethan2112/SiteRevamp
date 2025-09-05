@@ -8,7 +8,14 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <i className="fab fa-whatsapp text-2xl text-green-400"></i>
+              <img 
+                src="/assets/logo.png" 
+                alt="AaraConnect Logo" 
+                className="h-8 w-auto"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
               <span className="text-xl font-bold">AaraConnect</span>
             </div>
             <p className="text-muted-foreground mb-4">

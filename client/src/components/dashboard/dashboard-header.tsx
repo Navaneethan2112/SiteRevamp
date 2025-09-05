@@ -13,7 +13,14 @@ export function DashboardHeader() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
-              <i className="fab fa-whatsapp text-2xl text-green-400"></i>
+              <img 
+                src="/assets/logo.png" 
+                alt="AaraConnect Logo" 
+                className="h-8 w-auto"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
               <span className="text-xl font-bold">AaraConnect</span>
             </Link>
             <span className="text-sm bg-muted px-2 py-1 rounded">Dashboard</span>
