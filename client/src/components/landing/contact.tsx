@@ -6,15 +6,23 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Building, Users } from 'lucide-react';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+  company: z.string().min(2, 'Company name is required'),
+  plan: z.enum(['starter', 'professional', 'enterprise', 'not-sure'], {
+    errorMap: () => ({ message: 'Please select a plan' })
+  }),
+  employees: z.string().min(1, 'Please select company size'),
+  currentSolution: z.string().optional(),
+  message: z.string().min(10, 'Please describe your requirements'),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -28,6 +36,11 @@ export function Contact() {
     defaultValues: {
       name: '',
       email: '',
+      phone: '',
+      company: '',
+      plan: 'not-sure',
+      employees: '',
+      currentSolution: '',
       message: '',
     },
   });
@@ -36,8 +49,8 @@ export function Contact() {
     mutationFn: (data: ContactFormData) => apiRequest('POST', '/api/contacts', data),
     onSuccess: () => {
       toast({
-        title: 'Message sent successfully!',
-        description: 'We\'ll get back to you as soon as possible.',
+        title: 'Business inquiry sent successfully!',
+        description: 'Our team will contact you within 24 hours to discuss your WhatsApp messaging requirements.',
       });
       form.reset();
       queryClient.invalidateQueries({ queryKey: ['/api/contacts'] });
@@ -59,9 +72,9 @@ export function Contact() {
     <section id="contact" className="py-20 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Get in Touch</h2>
+          <h2 className="text-4xl font-bold mb-4">Request a Business Demo</h2>
           <p className="text-xl text-muted-foreground">
-            Ready to transform your business communication? We're here to help you get started.
+            Ready to transform your business communication? Let's discuss your WhatsApp messaging needs and find the perfect solution for your business.
           </p>
         </div>
         
@@ -111,40 +124,149 @@ export function Contact() {
           </div>
           
           <div className="bg-background p-8 rounded-2xl border border-border">
-            <h3 className="text-2xl font-bold mb-6">Send us a Message</h3>
+            <h3 className="text-2xl font-bold mb-6">Get Your Custom Quote</h3>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Your full name" 
+                            {...field}
+                            data-testid="input-contact-name"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Business Email</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email"
+                            placeholder="you@yourcompany.com" 
+                            {...field}
+                            data-testid="input-contact-email"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="+91 9876543210" 
+                            {...field}
+                            data-testid="input-contact-phone"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Your company name" 
+                            {...field}
+                            data-testid="input-contact-company"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="plan"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Interested Plan</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger data-testid="select-plan">
+                              <SelectValue placeholder="Select a plan" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="starter">Starter (₹2,999/month)</SelectItem>
+                            <SelectItem value="professional">Professional (₹7,999/month)</SelectItem>
+                            <SelectItem value="enterprise">Enterprise (Custom)</SelectItem>
+                            <SelectItem value="not-sure">Not sure yet</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="employees"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Size</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger data-testid="select-employees">
+                              <SelectValue placeholder="Number of employees" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="1-10">1-10 employees</SelectItem>
+                            <SelectItem value="11-50">11-50 employees</SelectItem>
+                            <SelectItem value="51-200">51-200 employees</SelectItem>
+                            <SelectItem value="201-1000">201-1000 employees</SelectItem>
+                            <SelectItem value="1000+">1000+ employees</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="currentSolution"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>Current WhatsApp Solution (Optional)</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="Your full name" 
+                          placeholder="e.g., WhatsApp Business App, other platform, none" 
                           {...field}
-                          data-testid="input-contact-name"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="email"
-                          placeholder="your@email.com" 
-                          {...field}
-                          data-testid="input-contact-email"
+                          data-testid="input-current-solution"
                         />
                       </FormControl>
                       <FormMessage />
@@ -157,11 +279,11 @@ export function Contact() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message</FormLabel>
+                      <FormLabel>Business Requirements</FormLabel>
                       <FormControl>
                         <Textarea 
                           rows={4}
-                          placeholder="Tell us about your requirements..."
+                          placeholder="Tell us about your WhatsApp messaging needs, monthly volume, specific features required, etc."
                           {...field}
                           data-testid="textarea-contact-message"
                         />
@@ -177,7 +299,7 @@ export function Contact() {
                   disabled={contactMutation.isPending}
                   data-testid="button-send-message"
                 >
-                  {contactMutation.isPending ? 'Sending...' : 'Send Message'}
+                  {contactMutation.isPending ? 'Sending Request...' : 'Request Demo & Quote'}
                 </Button>
               </form>
             </Form>

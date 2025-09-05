@@ -101,26 +101,24 @@ export function Pricing() {
                 ))}
               </ul>
               
-              {plan.name === 'Enterprise' ? (
-                <Button 
-                  variant="outline"
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  data-testid="button-contact-sales"
-                >
-                  Contact Sales
-                </Button>
-              ) : (
-                <LoginButton 
-                  variant={plan.popular ? "default" : "outline"}
-                  className={`w-full ${
-                    plan.popular 
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                      : 'border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-                  }`}
-                >
-                  Get Started
-                </LoginButton>
-              )}
+              <Button 
+                variant={plan.name === 'Enterprise' ? "outline" : (plan.popular ? "default" : "outline")}
+                className={`w-full ${
+                  plan.name === 'Enterprise' ? 'border-primary text-primary hover:bg-primary hover:text-primary-foreground' :
+                  plan.popular 
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                    : 'border-primary text-primary hover:bg-primary hover:text-primary-foreground'
+                }`}
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                data-testid={`button-${plan.name === 'Enterprise' ? 'contact-sales' : 'get-started'}`}
+              >
+                {plan.name === 'Enterprise' ? 'Contact Sales' : 'Request Demo'}
+              </Button>
             </div>
           ))}
         </div>

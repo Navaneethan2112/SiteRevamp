@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
+import Leads from "@/pages/leads";
 import Messages from "@/pages/messages";
 import Chatbots from "@/pages/chatbots";
 import Analytics from "@/pages/analytics";
@@ -19,6 +20,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/dashboard/leads" component={Leads} />
       <Route path="/dashboard/messages" component={Messages} />
       <Route path="/dashboard/chatbots" component={Chatbots} />
       <Route path="/dashboard/analytics" component={Analytics} />
