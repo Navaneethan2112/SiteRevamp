@@ -1,67 +1,104 @@
+import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LoginButton } from '@/components/auth/login-button';
 
 const plans = [
   {
     name: "Starter",
     description: "Perfect for small businesses getting started",
-    price: "₹2,999",
+    pricing: {
+      USD: { amount: 79, symbol: "$" },
+      AED: { amount: 299, symbol: "AED " },
+      INR: { amount: 2999, symbol: "₹" }
+    },
     period: "/month",
     features: [
-      "1,000 messages/month",
-      "Basic chatbot",
-      "WhatsApp API integration",
+      "5,000 messages/month",
+      "Basic chatbot automation",
+      "WhatsApp Business API",
       "Email support",
-      "5 approved templates"
+      "10 approved templates",
+      "Campaign scheduling",
+      "Basic analytics"
     ],
     popular: false
   },
   {
     name: "Professional",
-    description: "Ideal for growing businesses",
-    price: "₹7,999",
+    description: "Ideal for growing businesses with advanced needs",
+    pricing: {
+      USD: { amount: 199, symbol: "$" },
+      AED: { amount: 749, symbol: "AED " },
+      INR: { amount: 7999, symbol: "₹" }
+    },
     period: "/month",
     features: [
-      "10,000 messages/month",
-      "Advanced chatbot with AI",
-      "Bulk messaging",
-      "Campaign management",
-      "Analytics dashboard",
-      "Priority support",
-      "25 approved templates",
-      "Facebook Business integration"
+      "25,000 messages/month",
+      "AI-powered chatbot",
+      "Bulk messaging campaigns",
+      "Advanced campaign management",
+      "Comprehensive analytics dashboard",
+      "Priority support (24/7)",
+      "50+ approved templates",
+      "Multi-media support",
+      "Contact segmentation",
+      "API access"
     ],
     popular: true
   },
   {
     name: "Enterprise",
-    description: "For large organizations with complex needs",
-    price: "Custom",
+    description: "For large organizations with custom requirements",
+    pricing: {
+      USD: { amount: "Custom", symbol: "" },
+      AED: { amount: "Custom", symbol: "" },
+      INR: { amount: "Custom", symbol: "" }
+    },
     period: "",
     features: [
       "Unlimited messages",
-      "Custom integrations",
+      "Custom chatbot development",
+      "White-label solution",
       "Dedicated account manager",
       "24/7 phone support",
-      "Custom templates",
-      "Multi-location support",
-      "Advanced analytics",
-      "White-label solution"
+      "Custom integrations & API",
+      "Multi-location management",
+      "Advanced reporting & analytics",
+      "Custom templates & branding",
+      "SLA guarantees",
+      "On-premise deployment option"
     ],
     popular: false
   }
 ];
 
 export function Pricing() {
+  const [currency, setCurrency] = useState('USD');
+
   return (
     <section id="pricing" className="py-20 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-xl text-muted-foreground">
-            Choose the perfect plan for your business needs. All plans include our core features and 24/7 support.
+          <h2 className="text-4xl font-bold mb-4">Enterprise WhatsApp Messaging Solutions</h2>
+          <p className="text-xl text-muted-foreground mb-6">
+            Professional WhatsApp Business API plans for businesses of all sizes. Includes chatbots, bulk messaging, and analytics.
           </p>
+          
+          {/* Currency Selector */}
+          <div className="flex justify-center mb-8">
+            <Select value={currency} onValueChange={setCurrency}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USD">🇺🇸 USD (Global)</SelectItem>
+                <SelectItem value="AED">🇦🇪 AED (UAE)</SelectItem>
+                <SelectItem value="INR">🇮🇳 INR (India)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -87,7 +124,8 @@ export function Pricing() {
               <p className="text-muted-foreground mb-6">{plan.description}</p>
               <div className="mb-8">
                 <span className="text-4xl font-bold" data-testid={`text-price-${plan.name.toLowerCase()}`}>
-                  {plan.price}
+                  {plan.pricing[currency as keyof typeof plan.pricing].symbol}
+                  {plan.pricing[currency as keyof typeof plan.pricing].amount}
                 </span>
                 <span className="text-muted-foreground">{plan.period}</span>
               </div>

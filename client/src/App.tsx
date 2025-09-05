@@ -12,6 +12,7 @@ import Chatbots from "@/pages/chatbots";
 import Analytics from "@/pages/analytics";
 import Contacts from "@/pages/contacts";
 import Settings from "@/pages/settings";
+import Policies from "@/pages/policies";
 import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
 
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/dashboard/analytics" component={Analytics} />
       <Route path="/dashboard/contacts" component={Contacts} />
       <Route path="/dashboard/settings" component={Settings} />
+      <Route path="/policies" component={Policies} />
       <Route path="/login" component={Login} />
       <Route path="/callback" component={Login} />
       <Route component={NotFound} />

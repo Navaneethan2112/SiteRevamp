@@ -1,6 +1,6 @@
 import { LoginButton } from '@/components/auth/login-button';
 import { Button } from '@/components/ui/button';
-import { Play, Rocket } from 'lucide-react';
+import { Play, MessageSquare, Bot, BarChart3, Users } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -8,38 +8,78 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="fade-in">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Empowering Small Businesses with{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
-                Smart WhatsApp Messaging
+            <div className="mb-4">
+              <span className="inline-block bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+                ✅ Official WhatsApp Business API Partner
               </span>
+            </div>
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+              Enterprise{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
+                WhatsApp Business Platform
+              </span>{' '}
+              for Modern Businesses
             </h1>
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              Connect with your customers like never before with automated campaigns, approved templates, and powerful analytics.
+            <p className="text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl">
+              Transform your customer communication with our professional WhatsApp Business API platform. 
+              Features intelligent chatbots, bulk messaging campaigns, and comprehensive analytics for businesses across UAE and India.
             </p>
+
+            {/* Feature Pills */}
+            <div className="flex flex-wrap gap-3 mb-8">
+              <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Bulk Messaging
+              </div>
+              <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
+                <Bot className="h-4 w-4 mr-2" />
+                AI Chatbots
+              </div>
+              <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Analytics
+              </div>
+              <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
+                <Users className="h-4 w-4 mr-2" />
+                CRM Integration
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4">
-              <LoginButton className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover-scale">
-                <Rocket className="mr-2 h-4 w-4" />
-                Start Free Trial
-              </LoginButton>
-              <Button variant="secondary" className="glass-effect text-white px-8 py-4 rounded-lg font-semibold hover-scale border-white/20">
+              <Button 
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover-scale text-base"
+              >
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Request Business Demo
+              </Button>
+              <Button variant="secondary" className="glass-effect text-white px-8 py-4 rounded-lg font-semibold hover-scale border-white/20 text-base">
                 <Play className="mr-2 h-4 w-4" />
-                Watch Demo
+                View Case Studies
               </Button>
             </div>
             
-            <div className="mt-12 flex items-center space-x-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white" data-testid="text-active-users">10K+</div>
-                <div className="text-blue-200 text-sm">Active Users</div>
+            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="text-center lg:text-left">
+                <div className="text-3xl font-bold text-white" data-testid="text-active-users">500+</div>
+                <div className="text-blue-200 text-sm">Enterprise Clients</div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white" data-testid="text-messages-sent">50M+</div>
-                <div className="text-blue-200 text-sm">Messages Sent</div>
+              <div className="text-center lg:text-left">
+                <div className="text-3xl font-bold text-white" data-testid="text-messages-sent">25M+</div>
+                <div className="text-blue-200 text-sm">Messages Delivered</div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white" data-testid="text-uptime">99.9%</div>
-                <div className="text-blue-200 text-sm">Uptime</div>
+              <div className="text-center lg:text-left">
+                <div className="text-3xl font-bold text-white" data-testid="text-uptime">99.9%</div>
+                <div className="text-blue-200 text-sm">API Uptime</div>
+              </div>
+              <div className="text-center lg:text-left">
+                <div className="text-3xl font-bold text-white" data-testid="text-response-time">2.5s</div>
+                <div className="text-blue-200 text-sm">Avg Response Time</div>
               </div>
             </div>
           </div>

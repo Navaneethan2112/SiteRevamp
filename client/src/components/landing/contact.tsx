@@ -89,8 +89,9 @@ export function Contact() {
                 </div>
                 <div>
                   <div className="font-semibold">Phone</div>
-                  <div className="text-muted-foreground" data-testid="text-phone">
-                    +91 9876543210
+                  <div className="text-muted-foreground space-y-1" data-testid="text-phone">
+                    <div>+971 508508155 (UAE)</div>
+                    <div>+91 9514004877 (India)</div>
                   </div>
                 </div>
               </div>
@@ -115,8 +116,9 @@ export function Contact() {
                 </div>
                 <div>
                   <div className="font-semibold">Location</div>
-                  <div className="text-muted-foreground" data-testid="text-location">
-                    Coimbatore, Tamil Nadu
+                  <div className="text-muted-foreground space-y-1" data-testid="text-location">
+                    <div>Dubai, UAE</div>
+                    <div>Coimbatore, India</div>
                   </div>
                 </div>
               </div>

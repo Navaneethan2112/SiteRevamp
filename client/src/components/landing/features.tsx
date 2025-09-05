@@ -10,38 +10,38 @@ import {
 const features = [
   {
     icon: MessageSquare,
-    title: "WhatsApp Business API",
-    description: "Direct integration with WhatsApp Business API for reliable message delivery and advanced features.",
+    title: "Enterprise WhatsApp API",
+    description: "Official WhatsApp Business API integration with enterprise-grade reliability, compliance monitoring, and 99.9% uptime SLA for mission-critical communications.",
     color: "text-primary"
   },
   {
     icon: Bot,
-    title: "Automated Chatbots",
-    description: "Intelligent chatbots that handle customer queries 24/7 with natural language processing.",
-    color: "text-accent"
+    title: "AI-Powered Chatbots",
+    description: "Intelligent conversational AI that handles complex customer inquiries, lead qualification, and support automation 24/7 with natural language processing.",
+    color: "text-purple-500"
   },
   {
     icon: BarChart3,
-    title: "Advanced Analytics",
-    description: "Comprehensive analytics and reporting to track your messaging campaigns and customer engagement.",
+    title: "Advanced Analytics & BI",
+    description: "Comprehensive business intelligence dashboard with real-time metrics, conversion tracking, ROI analysis, and customizable reporting for data-driven decisions.",
     color: "text-green-500"
   },
   {
     icon: Send,
-    title: "Bulk Messaging",
-    description: "Send personalized bulk messages to thousands of contacts with approved templates.",
+    title: "Bulk Campaign Management",
+    description: "Execute large-scale messaging campaigns with advanced segmentation, A/B testing, delivery optimization, and compliance monitoring for maximum ROI.",
     color: "text-blue-500"
   },
   {
     icon: Shield,
-    title: "Meta Approved Templates",
-    description: "Use pre-approved message templates that comply with Meta policies and guidelines.",
-    color: "text-purple-500"
+    title: "Compliance & Security",
+    description: "ISO 27001 certified platform with GDPR compliance, end-to-end encryption, message auditing, and regulatory adherence for UAE and India markets.",
+    color: "text-amber-500"
   },
   {
     icon: Megaphone,
-    title: "Campaign Management",
-    description: "Create, schedule, and manage marketing campaigns with advanced targeting options.",
+    title: "Multi-Channel Integration",
+    description: "Seamlessly integrate with CRM systems, helpdesks, marketing automation platforms, and ERP systems for unified customer communication workflows.",
     color: "text-orange-500"
   }
 ];
@@ -51,9 +51,10 @@ export function Features() {
     <section id="features" className="py-20 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Powerful Features for Modern Businesses</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Everything you need to transform your customer communication and grow your business with WhatsApp.
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">Enterprise-Grade WhatsApp Business Solutions</h2>
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            Comprehensive WhatsApp Business API platform designed for enterprises across UAE and India. 
+            Features advanced automation, AI-powered chatbots, and enterprise integrations with guaranteed SLAs.
           </p>
         </div>
         
