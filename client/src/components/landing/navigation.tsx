@@ -111,23 +111,9 @@ export function Navigation() {
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Select>
-                  <SelectTrigger className="w-24 h-8 border-0 bg-transparent hover:bg-muted/50">
-                    <SelectValue placeholder="Login" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="user">
-                      <LoginButton variant="outline" className="w-full justify-start p-0 h-auto">
-                        User Login
-                      </LoginButton>
-                    </SelectItem>
-                    <SelectItem value="admin">
-                      <LoginButton variant="outline" className="w-full justify-start p-0 h-auto">
-                        Admin Login
-                      </LoginButton>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <LoginButton variant="outline" size="sm">
+                  Login
+                </LoginButton>
                 <LoginButton className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
                   Request Demo
                 </LoginButton>
@@ -215,10 +201,9 @@ export function Navigation() {
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <LoginButton variant="outline" className="w-full py-3 text-left justify-start">{t('userLogin')}</LoginButton>
-                    <LoginButton variant="outline" className="w-full py-3 text-left justify-start">{t('adminLogin')}</LoginButton>
+                    <LoginButton variant="outline" className="w-full py-3 text-left justify-start">Login</LoginButton>
                     <LoginButton className="w-full py-3 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
-                      {t('requestDemo')}
+                      Request Demo
                     </LoginButton>
                   </div>
                 )}
