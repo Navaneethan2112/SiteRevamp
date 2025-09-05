@@ -1,6 +1,6 @@
 # Overview
 
-AaraConnect is a WhatsApp Business messaging platform designed to empower small businesses with smart communication solutions. The application provides automated campaigns, approved message templates, chatbots, analytics, and comprehensive contact management through the WhatsApp Business API. Built as a full-stack SaaS application, it combines a React frontend with an Express.js backend and PostgreSQL database using Drizzle ORM.
+Aara Connect is a WhatsApp Business messaging platform designed to empower small businesses with smart communication solutions. The application provides automated campaigns, approved message templates, chatbots, analytics, and comprehensive contact management through the WhatsApp Business API. Built as a full-stack SaaS application, it combines a React frontend with an Express.js backend and PostgreSQL database using Drizzle ORM.
 
 # User Preferences
 

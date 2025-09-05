@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@/components/ui/button';
 import { LogoutButton } from '@/components/auth/logout-button';
 import { Bell, ChevronDown } from 'lucide-react';
+import logoImage from '@assets/logo(1)_1757082606279.png';
 import { Link } from 'wouter';
 
 export function DashboardHeader() {
@@ -12,16 +13,12 @@ export function DashboardHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
+            <Link href="/" className="flex items-center" data-testid="link-home">
               <img 
-                src="/assets/logo.png" 
-                alt="AaraConnect Logo" 
-                className="h-8 w-auto"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
+                src={logoImage} 
+                alt="Aara Connect Logo" 
+                className="h-10 w-auto"
               />
-              <span className="text-xl font-bold">AaraConnect</span>
             </Link>
             <span className="text-sm bg-muted px-2 py-1 rounded">Dashboard</span>
           </div>

@@ -6,6 +6,7 @@ import { LogoutButton } from '@/components/auth/logout-button';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Moon, Sun, Menu, X, Globe, DollarSign } from 'lucide-react';
+import logoImage from '@assets/logo(1)_1757082606279.png';
 import { useLanguage } from '@/contexts/language-context';
 import { useCurrency } from '@/contexts/currency-context';
 
@@ -34,16 +35,12 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4 lg:space-x-8">
-            <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
+            <Link href="/" className="flex items-center" data-testid="link-home">
               <img 
-                src="/assets/logo.png" 
-                alt="AaraConnect Logo" 
-                className="h-8 w-auto"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
+                src={logoImage} 
+                alt="Aara Connect Logo" 
+                className="h-10 w-auto"
               />
-              <span className="text-xl font-bold text-foreground">AaraConnect</span>
             </Link>
             <div className="hidden lg:flex space-x-6">
               <button 

@@ -19,7 +19,7 @@ export default function Policies() {
             </Link>
             <div>
               <h1 className="text-3xl font-bold">Legal Policies</h1>
-              <p className="text-muted-foreground">AaraConnect WhatsApp Business Platform</p>
+              <p className="text-muted-foreground">Aara Connect WhatsApp Business Platform</p>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function Policies() {
                   <section>
                     <h3 className="text-lg font-semibold mb-3">1. Information We Collect</h3>
                     <p className="text-muted-foreground mb-4">
-                      At AaraConnect, we collect information necessary to provide you with our WhatsApp Business messaging services:
+                      At Aara Connect, we collect information necessary to provide you with our WhatsApp Business messaging services:
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2">
                       <li>Business contact information (name, email, phone number)</li>
@@ -123,7 +123,7 @@ export default function Policies() {
                   <section>
                     <h3 className="text-lg font-semibold mb-3">1. Service Description</h3>
                     <p className="text-muted-foreground mb-4">
-                      AaraConnect provides WhatsApp Business API services including:
+                      Aara Connect provides WhatsApp Business API services including:
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2">
                       <li>WhatsApp Business messaging platform</li>
@@ -151,7 +151,7 @@ export default function Policies() {
                   <section>
                     <h3 className="text-lg font-semibold mb-3">3. Billing and Payments</h3>
                     <p className="text-muted-foreground mb-4">
-                      Billing terms for AaraConnect services:
+                      Billing terms for Aara Connect services:
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2">
                       <li>Monthly subscription billing in advance</li>
@@ -190,7 +190,7 @@ export default function Policies() {
                   <section>
                     <h3 className="text-lg font-semibold mb-3">Data Processing Principles</h3>
                     <p className="text-muted-foreground mb-4">
-                      AaraConnect operates as a data processor for customer data and follows these principles:
+                      Aara Connect operates as a data processor for customer data and follows these principles:
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2">
                       <li>Process data only as instructed by the customer</li>

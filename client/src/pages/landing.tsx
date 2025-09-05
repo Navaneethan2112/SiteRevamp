@@ -26,7 +26,7 @@ export default function Landing() {
               />
             </div>
             <div>
-              <h2 className="text-4xl font-bold mb-6">See AaraConnect in Action</h2>
+              <h2 className="text-4xl font-bold mb-6">See Aara Connect in Action</h2>
               <p className="text-xl text-muted-foreground mb-8">
                 Watch how leading businesses use our platform to automate customer communication, increase engagement, and drive sales through WhatsApp.
               </p>

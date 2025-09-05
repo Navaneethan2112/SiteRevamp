@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { Twitter, Linkedin, Facebook } from 'lucide-react';
+import logoImage from '@assets/logo(1)_1757082606279.png';
 
 export function Footer() {
   return (
@@ -7,16 +8,12 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
+            <div className="flex items-center mb-4">
               <img 
-                src="/assets/logo.png" 
-                alt="AaraConnect Logo" 
-                className="h-8 w-auto"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
+                src={logoImage} 
+                alt="Aara Connect Logo" 
+                className="h-10 w-auto"
               />
-              <span className="text-xl font-bold">AaraConnect</span>
             </div>
             <p className="text-muted-foreground mb-4">
               Empowering businesses with smart WhatsApp messaging solutions.
@@ -127,7 +124,7 @@ export function Footer() {
         
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-muted-foreground">
-            © 2024 AaraConnect. Made with ❤️ in Coimbatore, Tamil Nadu. All rights reserved.
+            © 2024 Aara Connect. Made with ❤️ in Coimbatore, Tamil Nadu. All rights reserved.
           </p>
         </div>
       </div>
