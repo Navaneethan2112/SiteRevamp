@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LoginButton } from '@/components/auth/login-button';
+import { useLanguage } from '@/contexts/language-context';
+import { useCurrency } from '@/contexts/currency-context';
 
 const plans = [
   {
@@ -75,37 +75,24 @@ const plans = [
 ];
 
 export function Pricing() {
-  const [currency, setCurrency] = useState('USD');
+  const { t } = useLanguage();
+  const { currency } = useCurrency();
 
   return (
     <section id="pricing" className="py-20 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Enterprise WhatsApp Messaging Solutions</h2>
-          <p className="text-xl text-muted-foreground mb-6">
-            Professional WhatsApp Business API plans for businesses of all sizes. Includes chatbots, bulk messaging, and analytics.
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">{t('pricingTitle')}</h2>
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            {t('pricingDescription')}
           </p>
-          
-          {/* Currency Selector */}
-          <div className="flex justify-center mb-8">
-            <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="USD">🇺🇸 USD (Global)</SelectItem>
-                <SelectItem value="AED">🇦🇪 AED (UAE)</SelectItem>
-                <SelectItem value="INR">🇮🇳 INR (India)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {plans.map((plan, index) => (
             <div 
               key={index}
-              className={`p-8 rounded-2xl border hover-scale relative ${
+              className={`p-6 sm:p-8 rounded-2xl border hover-scale relative ${
                 plan.popular 
                   ? 'bg-primary/5 border-2 border-primary' 
                   : 'bg-background border-border'
@@ -115,19 +102,19 @@ export function Pricing() {
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
-                    Most Popular
+{t('mostPopular')}
                   </span>
                 </div>
               )}
               
-              <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-              <p className="text-muted-foreground mb-6">{plan.description}</p>
+              <h3 className="text-2xl font-bold mb-2">{t(plan.name.toLowerCase())}</h3>
+              <p className="text-muted-foreground mb-6">{t(plan.name.toLowerCase() + 'Desc')}</p>
               <div className="mb-8">
                 <span className="text-4xl font-bold" data-testid={`text-price-${plan.name.toLowerCase()}`}>
                   {plan.pricing[currency as keyof typeof plan.pricing].symbol}
                   {plan.pricing[currency as keyof typeof plan.pricing].amount}
                 </span>
-                <span className="text-muted-foreground">{plan.period}</span>
+                <span className="text-muted-foreground">{plan.period === '/month' ? t('month') : plan.period}</span>
               </div>
               
               <ul className="space-y-3 mb-8">
