@@ -7,10 +7,19 @@ export function Hero() {
   const { t } = useLanguage();
   
   return (
-    <section className="pt-24 pb-16 gradient-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-24 pb-16 gradient-bg relative overflow-hidden">
+      {/* Floating animated shapes */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-full animate-bounce" style={{animationDelay: '0s', animationDuration: '3s'}}></div>
+        <div className="absolute top-32 right-20 w-12 h-12 bg-purple-300/20 rounded-full animate-bounce" style={{animationDelay: '1s', animationDuration: '2.5s'}}></div>
+        <div className="absolute bottom-40 left-1/4 w-8 h-8 bg-violet-400/30 rounded-full animate-bounce" style={{animationDelay: '0.5s', animationDuration: '4s'}}></div>
+        <div className="absolute bottom-20 right-1/3 w-10 h-10 bg-white/15 rounded-full animate-bounce" style={{animationDelay: '2s', animationDuration: '3.5s'}}></div>
+        <div className="absolute top-1/2 right-10 w-6 h-6 bg-purple-200/25 rounded-full animate-bounce" style={{animationDelay: '1.5s', animationDuration: '2.8s'}}></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="fade-in">
+          <div className="animate-fade-in-up">
             <div className="mb-4">
               <span className="inline-block bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
                 {t('apiPartner')}
@@ -86,13 +95,19 @@ export function Hero() {
             </div>
           </div>
           
-          <div className="lg:pl-8">
-            <img 
-              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-              alt="Modern SaaS dashboard interface" 
-              className="rounded-2xl shadow-2xl hover-scale"
-              data-testid="img-dashboard-preview"
-            />
+          <div className="lg:pl-8 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+            <div className="relative">
+              <img 
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                alt="Modern SaaS dashboard interface" 
+                className="rounded-2xl shadow-2xl hover-scale animate-float"
+                data-testid="img-dashboard-preview"
+              />
+              {/* Floating accent elements around the image */}
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-violet-400 rounded-full animate-pulse"></div>
+              <div className="absolute -bottom-6 -right-6 w-12 h-12 bg-purple-500/50 rounded-full animate-ping"></div>
+              <div className="absolute top-1/2 -left-8 w-4 h-4 bg-white rounded-full animate-bounce"></div>
+            </div>
           </div>
         </div>
       </div>
