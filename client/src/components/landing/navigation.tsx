@@ -33,13 +33,13 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-4 lg:space-x-8">
             <Link href="/" className="flex items-center" data-testid="link-home">
               <img 
                 src={logoImage} 
                 alt="Aara Connect Logo" 
-                className="h-10 w-auto"
+                className="h-16 w-auto max-w-none"
               />
             </Link>
             <div className="hidden lg:flex space-x-6">

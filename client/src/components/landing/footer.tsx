@@ -12,7 +12,7 @@ export function Footer() {
               <img 
                 src={logoImage} 
                 alt="Aara Connect Logo" 
-                className="h-10 w-auto"
+                className="h-12 w-auto max-w-none"
               />
             </div>
             <p className="text-muted-foreground mb-4">
