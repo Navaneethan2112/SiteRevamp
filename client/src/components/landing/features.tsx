@@ -14,8 +14,8 @@ export function Features() {
   const features = [
     {
       icon: MessageSquare,
-      titleKey: "enterpriseApi",
-      descriptionKey: "enterpriseApiDesc",
+      titleKey: "businessApi",
+      descriptionKey: "businessApiDesc",
       color: "text-primary"
     },
     {

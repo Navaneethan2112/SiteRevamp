@@ -122,11 +122,11 @@ export function Hero() {
             
             <div className="mt-8 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <div className="text-center lg:text-left">
-                <div className="text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-active-users">500+</div>
-                <div className="text-muted-foreground text-xs sm:text-sm">{t('enterpriseClients')}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-active-users">150+</div>
+                <div className="text-muted-foreground text-xs sm:text-sm">{t('businessClients')}</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-messages-sent">25M+</div>
+                <div className="text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-messages-sent">2.5M+</div>
                 <div className="text-muted-foreground text-xs sm:text-sm">{t('messagesDelivered')}</div>
               </div>
               <div className="text-center lg:text-left">
