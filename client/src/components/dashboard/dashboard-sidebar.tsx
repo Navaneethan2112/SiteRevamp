@@ -7,13 +7,15 @@ import {
   BarChart3, 
   Users, 
   Settings,
-  UserCheck
+  UserCheck,
+  Smartphone
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Overview', href: '/dashboard', icon: Home },
   { name: 'Leads', href: '/dashboard/leads', icon: UserCheck },
   { name: 'Messages', href: '/dashboard/messages', icon: MessageSquare },
+  { name: 'WhatsApp', href: '/dashboard/whatsapp', icon: Smartphone },
   { name: 'Chatbots', href: '/dashboard/chatbots', icon: Bot },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
   { name: 'Contacts', href: '/dashboard/contacts', icon: Users },

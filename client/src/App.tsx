@@ -17,6 +17,7 @@ import Settings from "@/pages/settings";
 import Policies from "@/pages/policies";
 import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
+import WhatsAppMarketing from "@/pages/whatsapp-marketing";
 
 function Router() {
   return (
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/dashboard/chatbots" component={Chatbots} />
       <Route path="/dashboard/analytics" component={Analytics} />
       <Route path="/dashboard/contacts" component={Contacts} />
+      <Route path="/dashboard/whatsapp" component={WhatsAppMarketing} />
       <Route path="/dashboard/settings" component={Settings} />
       <Route path="/policies" component={Policies} />
       <Route path="/login" component={Login} />
