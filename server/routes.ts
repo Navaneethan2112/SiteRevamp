@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSchema, insertUserSchema } from "@shared/schema";
+import { whatsAppService, WhatsAppService } from "./whatsapp";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission
@@ -82,6 +83,71 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const templates = await storage.getTemplatesByUserId('demo-user');
       res.json(templates);
     } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // WhatsApp API endpoints
+  app.get("/api/whatsapp/templates", async (req, res) => {
+    try {
+      const templates = whatsAppService.getAvailableTemplates();
+      res.json(templates);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.post("/api/whatsapp/send", async (req, res) => {
+    try {
+      const { to, templateName, variables } = req.body;
+      
+      if (!to || !templateName) {
+        return res.status(400).json({ message: "Phone number and template name are required" });
+      }
+
+      const messageId = await whatsAppService.sendTemplateMessage(to, templateName, variables);
+      res.json({ success: true, messageId });
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.post("/api/whatsapp/bulk-send", async (req, res) => {
+    try {
+      const { phoneNumbers, templateName, variables } = req.body;
+      
+      if (!phoneNumbers || !Array.isArray(phoneNumbers) || !templateName) {
+        return res.status(400).json({ message: "Phone numbers array and template name are required" });
+      }
+
+      const results = await whatsAppService.sendBulkMessages(phoneNumbers, templateName, variables);
+      res.json({
+        success: true,
+        results: {
+          sent: results.success.length,
+          failed: results.failed.length,
+          details: results
+        }
+      });
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  // WhatsApp webhook endpoint
+  app.post("/api/whatsapp/webhook", async (req, res) => {
+    try {
+      const incomingMessage = WhatsAppService.processIncomingMessage(req.body);
+      
+      // Log incoming message for demo
+      console.log('Received WhatsApp message:', incomingMessage);
+      
+      // You can add your custom logic here to handle incoming messages
+      // For example, store in database, trigger automated responses, etc.
+      
+      res.status(200).send('OK');
+    } catch (error: any) {
+      console.error('Webhook error:', error);
       res.status(500).json({ message: error.message });
     }
   });
