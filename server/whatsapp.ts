@@ -1,4 +1,4 @@
-import { Client } from 'twilio';
+import twilio from 'twilio';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -8,7 +8,7 @@ if (!accountSid || !authToken || !twilioWhatsAppNumber) {
   throw new Error('Missing Twilio credentials. Please check your environment variables.');
 }
 
-const client = new Client(accountSid, authToken);
+const client = twilio(accountSid, authToken);
 
 export interface WhatsAppMessage {
   to: string;
@@ -64,7 +64,7 @@ export const marketingTemplates: WhatsAppTemplate[] = [
 ];
 
 export class WhatsAppService {
-  private client: Client;
+  private client: ReturnType<typeof twilio>;
 
   constructor() {
     this.client = client;
@@ -76,7 +76,7 @@ export class WhatsAppService {
         from: twilioWhatsAppNumber,
         to: `whatsapp:${message.to}`,
         body: message.body,
-        ...(message.mediaUrl && { mediaUrl: message.mediaUrl })
+        ...(message.mediaUrl && { mediaUrl: [message.mediaUrl] })
       });
 
       console.log(`WhatsApp message sent successfully: ${twilioMessage.sid}`);
