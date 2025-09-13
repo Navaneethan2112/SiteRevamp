@@ -5,6 +5,15 @@ import { insertContactSchema, insertUserSchema, insertWhatsAppTemplateSchema } f
 import { whatsAppService, WhatsAppService, type UserTwilioCredentials } from "./whatsapp";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint
+  app.get("/api/health", (req, res) => {
+    res.json({ 
+      status: "ok", 
+      timestamp: new Date().toISOString(),
+      service: "WhatsApp SaaS Backend"
+    });
+  });
+
   // Contact form submission
   app.post("/api/contacts", async (req, res) => {
     try {
