@@ -7,15 +7,14 @@ const app = express();
 
 // CORS configuration for frontend-backend communication
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow localhost and any Hostinger domain
-    const allowedOrigins = ['http://localhost:5000', 'https://localhost:5000'];
-    if (!origin || allowedOrigins.includes(origin) || origin.includes('hostinger')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: [
+    'http://localhost:5000', 
+    'https://localhost:5000',
+    'https://aaraconnect.com',
+    'http://aaraconnect.com',
+    'https://www.aaraconnect.com',
+    'http://www.aaraconnect.com'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
