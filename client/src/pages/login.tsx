@@ -3,14 +3,20 @@ import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 
 export default function Login() {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
+      loginWithRedirect({ 
+        appState: { 
+          returnTo: '/dashboard' 
+        } 
+      });
+    } else if (!isLoading && isAuthenticated) {
       setLocation('/dashboard');
     }
-  }, [isAuthenticated, isLoading, setLocation]);
+  }, [isAuthenticated, isLoading, setLocation, loginWithRedirect]);
 
   if (isLoading) {
     return (
