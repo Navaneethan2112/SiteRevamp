@@ -255,7 +255,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const results = await whatsAppService.sendBulkMessages(phoneNumbers, templateName, variables, credentials);
       res.json({
-        success: true,
+        totalSent: results.success.length,
+        totalFailed: results.failed.length,
         ...results
       });
     } catch (error: any) {
