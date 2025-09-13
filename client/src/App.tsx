@@ -13,6 +13,7 @@ import Messages from "@/pages/messages";
 import Chatbots from "@/pages/chatbots";
 import Analytics from "@/pages/analytics";
 import Contacts from "@/pages/contacts";
+import Templates from "@/pages/templates";
 import Settings from "@/pages/settings";
 import Policies from "@/pages/policies";
 import Login from "@/pages/login";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/dashboard/chatbots" component={Chatbots} />
       <Route path="/dashboard/analytics" component={Analytics} />
       <Route path="/dashboard/contacts" component={Contacts} />
+      <Route path="/dashboard/templates" component={Templates} />
       <Route path="/dashboard/settings" component={Settings} />
       <Route path="/policies" component={Policies} />
       <Route path="/login" component={Login} />
