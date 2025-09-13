@@ -9,20 +9,11 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { MessageSquare, Send, Plus, Copy, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { MessageSquare, Send, Plus, Copy, CheckCircle, Clock, XCircle, Settings } from 'lucide-react';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import type { WhatsAppTemplate } from "@shared/schema";
 
-interface WhatsAppTemplate {
-  id?: string;
-  name: string;
-  category: 'MARKETING' | 'UTILITY' | 'AUTHENTICATION';
-  language: string;
-  body: string;
-  variables?: string[];
-  status?: 'PENDING' | 'APPROVED' | 'REJECTED';
-  createdAt?: Date;
-  rejectionReason?: string;
-}
+// Using the shared schema type
 
 interface SendMessageForm {
   to: string;
@@ -41,9 +32,9 @@ export default function Templates() {
     variables: []
   });
 
-  // Fetch available templates
+  // Fetch user-specific WhatsApp templates
   const { data: templates = [], isLoading } = useQuery<WhatsAppTemplate[]>({
-    queryKey: ['/api/whatsapp/templates'],
+    queryKey: ['/api/whatsapp-templates'],
   });
 
   // Send WhatsApp message mutation
@@ -70,10 +61,11 @@ export default function Templates() {
 
   const handleSendMessage = (template: WhatsAppTemplate) => {
     setSelectedTemplate(template);
+    const variablesArray = template.variables ? JSON.parse(template.variables) : [];
     setSendForm({
       to: '',
       templateName: template.name,
-      variables: new Array(template.variables?.length || 0).fill('')
+      variables: new Array(variablesArray.length).fill('')
     });
     setIsSendDialogOpen(true);
   };
@@ -230,11 +222,11 @@ export default function Templates() {
                 </div>
               </div>
               
-              {template.variables && template.variables.length > 0 && (
+              {template.variables && JSON.parse(template.variables).length > 0 && (
                 <div>
-                  <Label className="text-sm font-medium">Variables ({template.variables.length}):</Label>
+                  <Label className="text-sm font-medium">Variables ({JSON.parse(template.variables).length}):</Label>
                   <div className="mt-1 text-sm text-muted-foreground">
-                    {template.variables.map((variable, index) => (
+                    {JSON.parse(template.variables).map((variable: string, index: number) => (
                       <span key={index} className="inline-block bg-primary/10 text-primary px-2 py-1 rounded mr-2 mb-1">
                         {`{{${index + 1}}}`} {variable}
                       </span>
@@ -264,6 +256,14 @@ export default function Templates() {
                   </Button>
                 )}
               </div>
+              
+              {template.status === 'REJECTED' && template.rejectionReason && (
+                <div className="mt-2 p-2 bg-red-50 dark:bg-red-950 rounded-md">
+                  <p className="text-sm text-red-700 dark:text-red-300">
+                    <strong>Rejection Reason:</strong> {template.rejectionReason}
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -291,7 +291,7 @@ export default function Templates() {
               />
             </div>
 
-            {selectedTemplate?.variables?.map((variable, index) => (
+            {selectedTemplate?.variables && JSON.parse(selectedTemplate.variables).map((variable: string, index: number) => (
               <div key={index}>
                 <Label htmlFor={`var-${index}`}>
                   Variable {index + 1}: {variable}

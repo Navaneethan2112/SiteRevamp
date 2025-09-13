@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertUserSchema } from "@shared/schema";
-import { whatsAppService, WhatsAppService } from "./whatsapp";
+import { insertContactSchema, insertUserSchema, insertWhatsAppTemplateSchema } from "@shared/schema";
+import { whatsAppService, WhatsAppService, type UserTwilioCredentials } from "./whatsapp";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission
@@ -76,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Templates
+  // Templates (legacy)
   app.get("/api/templates", async (req, res) => {
     try {
       // In production, get userId from authenticated session
@@ -84,6 +84,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(templates);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
+    }
+  });
+
+  // User-specific WhatsApp Templates
+  app.get("/api/whatsapp-templates", async (req, res) => {
+    try {
+      // In production, get userId from authenticated session
+      const templates = await storage.getWhatsAppTemplatesByUserId('demo-user');
+      res.json(templates);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.post("/api/whatsapp-templates", async (req, res) => {
+    try {
+      const validatedData = insertWhatsAppTemplateSchema.parse({
+        ...req.body,
+        userId: req.body.userId || 'demo-user', // In production, get from session
+      });
+      
+      const template = await storage.createWhatsAppTemplate(validatedData);
+      res.json(template);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.put("/api/whatsapp-templates/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updates = req.body;
+      
+      const template = await storage.updateWhatsAppTemplate(id, updates);
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+      
+      res.json(template);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  // User Twilio credential management
+  app.post("/api/user/twilio-credentials", async (req, res) => {
+    try {
+      const { twilioAccountSid, twilioAuthToken, twilioPhoneNumber } = req.body;
+      const userId = req.body.userId || 'demo-user'; // In production, get from session
+      
+      if (!twilioAccountSid || !twilioAuthToken || !twilioPhoneNumber) {
+        return res.status(400).json({ 
+          message: "All Twilio credentials are required: accountSid, authToken, phoneNumber" 
+        });
+      }
+
+      // Verify credentials before saving
+      const credentials: UserTwilioCredentials = {
+        accountSid: twilioAccountSid,
+        authToken: twilioAuthToken,
+        phoneNumber: twilioPhoneNumber
+      };
+
+      const isValid = await whatsAppService.verifyUserCredentials(credentials);
+      if (!isValid) {
+        return res.status(400).json({ 
+          message: "Invalid Twilio credentials or phone number not found in account" 
+        });
+      }
+
+      // Update user with verified credentials
+      const user = await storage.updateUser(userId, {
+        twilioAccountSid,
+        twilioAuthToken,
+        twilioPhoneNumber,
+        twilioVerified: true
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Don't return sensitive credentials in response
+      const { twilioAuthToken: _, ...safeUser } = user;
+      res.json({ 
+        success: true, 
+        user: safeUser,
+        message: "Twilio credentials verified and saved successfully" 
+      });
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
     }
   });
 
@@ -99,22 +190,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/whatsapp/send", async (req, res) => {
     try {
-      const { to, templateName, variables } = req.body;
+      const { to, templateName, variables, userId } = req.body;
+      const userIdToUse = userId || 'demo-user'; // In production, get from session
       
       if (!to || !templateName) {
         return res.status(400).json({ message: "Phone number and template name are required" });
       }
 
-      // Check if service is configured
-      const status = whatsAppService.getStatus();
-      if (!status.configured) {
-        return res.status(500).json({ 
-          message: "WhatsApp service not configured", 
-          error: status.error 
+      // Get user's Twilio credentials
+      const user = await storage.getUser(userIdToUse);
+      if (!user || !user.twilioAccountSid || !user.twilioAuthToken || !user.twilioPhoneNumber) {
+        return res.status(400).json({ 
+          message: "User Twilio credentials not configured. Please set up your Twilio account first." 
         });
       }
 
-      const messageId = await whatsAppService.sendTemplateMessage(to, templateName, variables);
+      if (!user.twilioVerified) {
+        return res.status(400).json({ 
+          message: "Twilio credentials not verified. Please verify your credentials first." 
+        });
+      }
+
+      const credentials: UserTwilioCredentials = {
+        accountSid: user.twilioAccountSid,
+        authToken: user.twilioAuthToken,
+        phoneNumber: user.twilioPhoneNumber
+      };
+
+      const messageId = await whatsAppService.sendTemplateMessage(to, templateName, variables, credentials);
       res.json({ success: true, messageId, to });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
@@ -123,22 +226,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/whatsapp/bulk-send", async (req, res) => {
     try {
-      const { phoneNumbers, templateName, variables } = req.body;
+      const { phoneNumbers, templateName, variables, userId } = req.body;
+      const userIdToUse = userId || 'demo-user'; // In production, get from session
       
       if (!phoneNumbers || !Array.isArray(phoneNumbers) || !templateName) {
         return res.status(400).json({ message: "Phone numbers array and template name are required" });
       }
 
-      // Check if service is configured
-      const status = whatsAppService.getStatus();
-      if (!status.configured) {
-        return res.status(500).json({ 
-          message: "WhatsApp service not configured", 
-          error: status.error 
+      // Get user's Twilio credentials
+      const user = await storage.getUser(userIdToUse);
+      if (!user || !user.twilioAccountSid || !user.twilioAuthToken || !user.twilioPhoneNumber) {
+        return res.status(400).json({ 
+          message: "User Twilio credentials not configured. Please set up your Twilio account first." 
         });
       }
 
-      const results = await whatsAppService.sendBulkMessages(phoneNumbers, templateName, variables);
+      if (!user.twilioVerified) {
+        return res.status(400).json({ 
+          message: "Twilio credentials not verified. Please verify your credentials first." 
+        });
+      }
+
+      const credentials: UserTwilioCredentials = {
+        accountSid: user.twilioAccountSid,
+        authToken: user.twilioAuthToken,
+        phoneNumber: user.twilioPhoneNumber
+      };
+
+      const results = await whatsAppService.sendBulkMessages(phoneNumbers, templateName, variables, credentials);
       res.json({
         success: true,
         ...results

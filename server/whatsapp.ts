@@ -150,31 +150,64 @@ export function validatePhoneNumber(phoneNumber: string): boolean {
   }
 }
 
+// User Twilio Credentials Interface
+export interface UserTwilioCredentials {
+  accountSid: string;
+  authToken: string;
+  phoneNumber: string;
+}
+
 export class WhatsAppService {
-  private client: Twilio | null;
+  private defaultClient: Twilio | null;
   private credentialsError: string | null;
 
   constructor() {
-    this.client = client;
+    this.defaultClient = client;
     this.credentialsError = credentialsError;
+  }
+
+  // Create client for specific user credentials
+  private createUserClient(credentials: UserTwilioCredentials): Twilio {
+    try {
+      return twilio(credentials.accountSid, credentials.authToken);
+    } catch (error) {
+      throw new Error(`Failed to create Twilio client: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  // Verify user's Twilio credentials
+  async verifyUserCredentials(credentials: UserTwilioCredentials): Promise<boolean> {
+    try {
+      const userClient = this.createUserClient(credentials);
+      
+      // Verify credentials by making a simple API call
+      await userClient.api.v2010.accounts(credentials.accountSid).fetch();
+      
+      // Verify phone number exists in their account
+      const incomingPhoneNumbers = await userClient.incomingPhoneNumbers.list({
+        phoneNumber: credentials.phoneNumber.replace('whatsapp:', '').replace('+', '')
+      });
+      
+      return incomingPhoneNumbers.length > 0;
+    } catch (error) {
+      console.error('Failed to verify user Twilio credentials:', error);
+      return false;
+    }
   }
 
   private ensureClient(): Twilio {
     if (this.credentialsError) {
       throw new Error(this.credentialsError);
     }
-    if (!this.client) {
+    if (!this.defaultClient) {
       throw new Error('Twilio client not initialized');
     }
-    return this.client;
+    return this.defaultClient;
   }
 
-  async sendMessage(message: WhatsAppMessage): Promise<string> {
-    const client = this.ensureClient();
-    
-    if (!twilioWhatsAppNumber) {
-      throw new Error('TWILIO_PHONE_NUMBER environment variable is not set');
-    }
+  // Send message using user's own credentials
+  async sendMessage(message: WhatsAppMessage, userCredentials: UserTwilioCredentials): Promise<string> {
+    const client = this.createUserClient(userCredentials);
 
     try {
       // Format and validate phone number
@@ -185,7 +218,7 @@ export class WhatsAppService {
       }
 
       const twilioMessage = await client.messages.create({
-        from: `whatsapp:${twilioWhatsAppNumber}`,
+        from: `whatsapp:${userCredentials.phoneNumber}`,
         to: `whatsapp:${formattedPhoneNumber}`,
         body: message.body,
         ...(message.mediaUrl && { mediaUrl: [message.mediaUrl] })
@@ -206,7 +239,8 @@ export class WhatsAppService {
   async sendTemplateMessage(
     to: string, 
     templateName: string, 
-    variables: string[] = []
+    variables: string[] = [],
+    userCredentials: UserTwilioCredentials
   ): Promise<string> {
     const template = approvedTemplates.find(t => t.name === templateName);
     
@@ -228,13 +262,14 @@ export class WhatsAppService {
       console.warn(`Template '${templateName}' has unreplaced variables: ${unreplacedVariables.join(', ')}`);
     }
 
-    return this.sendMessage({ to, body });
+    return this.sendMessage({ to, body }, userCredentials);
   }
 
   async sendBulkMessages(
     phoneNumbers: string[], 
     templateName: string, 
-    variables: string[] = []
+    variables: string[] = [],
+    userCredentials: UserTwilioCredentials
   ): Promise<{ success: string[], failed: { phone: string, error: string }[] }> {
     if (!Array.isArray(phoneNumbers) || phoneNumbers.length === 0) {
       throw new Error('Phone numbers array is required and must not be empty');
@@ -256,7 +291,7 @@ export class WhatsAppService {
           throw new Error(`Invalid phone number format: ${phoneNumber}`);
         }
 
-        await this.sendTemplateMessage(phoneNumber, templateName, variables);
+        await this.sendTemplateMessage(phoneNumber, templateName, variables, userCredentials);
         results.success.push(phoneNumber);
         
         console.log(`Bulk message ${i + 1}/${phoneNumbers.length} sent successfully to ${phoneNumber}`);
@@ -279,11 +314,8 @@ export class WhatsAppService {
     console.log(summary);
     
     return {
-      totalSent: results.success.length,
-      totalFailed: results.failed.length,
       success: results.success,
-      failed: results.failed,
-      summary
+      failed: results.failed
     };
   }
 
@@ -297,7 +329,7 @@ export class WhatsAppService {
 
   // Check if service is configured
   isConfigured(): boolean {
-    return this.client !== null && this.credentialsError === null;
+    return this.defaultClient !== null && this.credentialsError === null;
   }
 
   // Get configuration status
