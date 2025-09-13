@@ -1,6 +1,7 @@
 import { type User, type InsertUser, type Contact, type InsertContact, type Campaign, type InsertCampaign, type Template, type InsertTemplate, type WhatsAppTemplate, type InsertWhatsAppTemplate, users, contacts, campaigns, templates, whatsappTemplates } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { whatsAppService, type UserTwilioCredentials } from "./whatsapp";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -95,13 +96,57 @@ export class DatabaseStorage implements IStorage {
     activeContacts: number;
     conversionRate: string;
   }> {
-    // Return demo stats
-    return {
-      messagesSent: 12458,
-      responseRate: '68.5%',
-      activeContacts: 8924,
-      conversionRate: '24.8%',
-    };
+    try {
+      // Get user from database to check for Twilio credentials
+      const user = await this.getUser(userId);
+      
+      if (!user) {
+        console.log('User not found, returning zero stats');
+        return {
+          messagesSent: 0,
+          responseRate: 'N/A',
+          activeContacts: 0,
+          conversionRate: 'N/A'
+        };
+      }
+
+      // Check if user has configured and verified Twilio credentials
+      if (!user.twilioAccountSid || !user.twilioAuthToken || !user.twilioPhoneNumber || !user.twilioVerified) {
+        console.log('User Twilio credentials not configured or not verified, returning setup message');
+        return {
+          messagesSent: 0,
+          responseRate: 'Setup required',
+          activeContacts: 0,
+          conversionRate: 'Setup required'
+        };
+      }
+
+      // Create user credentials object for Twilio API calls
+      const userCredentials: UserTwilioCredentials = {
+        accountSid: user.twilioAccountSid,
+        authToken: user.twilioAuthToken,
+        phoneNumber: user.twilioPhoneNumber
+      };
+
+      console.log(`Fetching real Twilio stats for user ${userId} with phone ${user.twilioPhoneNumber}`);
+      
+      // Fetch real statistics from user's Twilio account
+      const realStats = await whatsAppService.getUserAccountStats(userCredentials);
+      
+      console.log('Real Twilio stats fetched successfully:', realStats);
+      return realStats;
+      
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+      
+      // Return error state with informative message
+      return {
+        messagesSent: 0,
+        responseRate: 'Error loading',
+        activeContacts: 0,
+        conversionRate: 'Error loading'
+      };
+    }
   }
 
   // WhatsApp Template Methods

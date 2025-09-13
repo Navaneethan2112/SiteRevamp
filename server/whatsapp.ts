@@ -391,6 +391,75 @@ export class WhatsAppService {
 
     return body;
   }
+
+  // Fetch real account statistics from user's Twilio account
+  async getUserAccountStats(userCredentials: UserTwilioCredentials): Promise<{
+    messagesSent: number;
+    responseRate: string;
+    activeContacts: number;
+    conversionRate: string;
+  }> {
+    try {
+      const userClient = this.createUserClient(userCredentials);
+
+      // Get messages sent from user's phone number in last 30 days
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      
+      const messages = await userClient.messages.list({
+        from: `whatsapp:${userCredentials.phoneNumber}`,
+        dateSentAfter: thirtyDaysAgo,
+        limit: 1000
+      });
+
+      const totalMessagesSent = messages.length;
+
+      // Count incoming messages (replies) to calculate response rate
+      const incomingMessages = await userClient.messages.list({
+        to: `whatsapp:${userCredentials.phoneNumber}`,
+        dateSentAfter: thirtyDaysAgo,
+        limit: 1000
+      });
+
+      const totalReplies = incomingMessages.length;
+      const responseRate = totalMessagesSent > 0 
+        ? `${Math.round((totalReplies / totalMessagesSent) * 100)}%`
+        : '0%';
+
+      // Get unique phone numbers contacted (active contacts)
+      const uniqueContacts = new Set(messages.map(msg => msg.to?.replace('whatsapp:', '')));
+      const activeContacts = uniqueContacts.size;
+
+      // Calculate conversion rate based on replies vs sent messages
+      const conversionRate = totalMessagesSent > 0 
+        ? `${Math.round((totalReplies / totalMessagesSent) * 100)}%`
+        : '0%';
+
+      console.log('Fetched real Twilio account stats:', {
+        messagesSent: totalMessagesSent,
+        responseRate,
+        activeContacts,
+        conversionRate
+      });
+
+      return {
+        messagesSent: totalMessagesSent,
+        responseRate,
+        activeContacts,
+        conversionRate
+      };
+    } catch (error) {
+      console.error('Failed to fetch user account stats from Twilio:', error);
+      
+      // Return fallback data with error indication
+      return {
+        messagesSent: 0,
+        responseRate: 'N/A',
+        activeContacts: 0,
+        conversionRate: 'N/A'
+      };
+    }
+  }
 }
 
 export const whatsAppService = new WhatsAppService();
